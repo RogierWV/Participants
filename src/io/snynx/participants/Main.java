@@ -1,3 +1,5 @@
+package io.snynx.participants;
+
 import javax.swing.*;
 
 public class Main {
