@@ -26,6 +26,7 @@ public class MainForm extends JFrame {
         btnSubmit.addActionListener(event -> {
             try {
                 Storage.getInstance().add(new Participation(txtName.getText(), (int) spnTimeH.getValue(), (int) spnTimeM.getValue()));
+                Storage.getInstance().sort();
             } catch (Throwable ex) {
                 Throwable throwable = ex;
                 List<String> errors = new ArrayList<>();

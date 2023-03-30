@@ -9,6 +9,10 @@ public class Storage implements List<Participation> {
         list = new ArrayList<>();
     }
 
+    public void sort() {
+        list.sort(Comparator.comparingInt(p -> Integer.parseInt(p.h() + "" + p.m())));
+    }
+
     @Override
     public boolean add(Participation o) {
         try{
