@@ -1,9 +1,11 @@
 package io.snynx.participants;
 
+import java.io.Serializable;
+
 /**
  * Record for holding all data for participations
  */
-public record Participation(String name, int h, int m) {
+public record Participation(String name, int h, int m) implements Serializable {
 
     @Override
     public String toString() {

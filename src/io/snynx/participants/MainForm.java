@@ -22,19 +22,22 @@ public class MainForm extends JFrame {
     private JList<Object> lstErrors;
     private JList<Object> lstParticipants;
 
-    public MainForm() {
+    public MainForm(String path) {
         this.setContentPane(mainPanel);
         this.setTitle("Participant");
-        this.setSize(300, 400);
+        this.setSize(500, 400);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        Storage.getInstance().load(path);
         lstParticipants.setModel(Storage.getInstance());
 
         btnSubmit.addActionListener(event -> {
             try {
                 Storage.getInstance().add(new Participation(txtName.getText(), (int) spnTimeH.getValue(), (int) spnTimeM.getValue()));
                 Storage.getInstance().sort();
+                lstErrors.setListData(List.of().toArray());
+                Storage.getInstance().save(path);
             } catch (Throwable ex) {
                 Throwable throwable = ex;
                 List<String> errors = new ArrayList<>();

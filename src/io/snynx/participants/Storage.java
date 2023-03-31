@@ -1,8 +1,9 @@
 package io.snynx.participants;
 
-import javax.swing.*;
+import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -16,14 +17,51 @@ import java.util.ListIterator;
 public class Storage implements List<Participation>, ListModel<Object> {
     private static Storage instance;
     private final ArrayList<Participation> list;
-    private final List<ListDataListener> listeners;
+    private final ArrayList<ListDataListener> listeners;
     private Storage() {
         list = new ArrayList<>();
         listeners = new ArrayList<>();
     }
 
+    /**
+     * Save internal storage to the specified file
+     * @param path the path to the file save to
+     */
+    public void save(String path) {
+        try {
+            FileOutputStream s = new FileOutputStream(path);
+            ObjectOutputStream enc = new ObjectOutputStream(s);
+            enc.writeObject(list);
+            enc.close();
+        } catch (Exception e) {
+            Throwable throwable = e;
+            do {
+                System.err.println(throwable.getMessage());
+            } while((throwable = throwable.getCause()) != null);
+        }
+    }
+
+    /**
+     * Load specified file into internal storage
+     * @param path the path to the file to load
+     */
+    @SuppressWarnings("unchecked") // cannot be checked and work correctly as far as I can tell, therefore ignore the warning
+    public void load(String path) {
+        try {
+            FileInputStream s = new FileInputStream(path);
+            ObjectInputStream enc = new ObjectInputStream(s);
+            list.addAll((ArrayList<Participation>) enc.readObject());
+            enc.close();
+        } catch (Exception e) {
+            Throwable throwable = e;
+            do {
+                System.err.println(throwable.getMessage());
+            } while((throwable = throwable.getCause()) != null);
+        }
+    }
+
     public void sort() {
-        list.sort(Comparator.comparingInt(p -> Integer.parseInt(p.h() + "" + p.m())));
+        list.sort(Comparator.comparingInt(p -> p.h()*60 + p.m()));
         notifyListeners();
     }
 
