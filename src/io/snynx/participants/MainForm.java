@@ -1,6 +1,12 @@
 package io.snynx.participants;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,8 @@ public class MainForm extends JFrame {
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        lstParticipants.setModel(Storage.getInstance());
+
         btnSubmit.addActionListener(event -> {
             try {
                 Storage.getInstance().add(new Participation(txtName.getText(), (int) spnTimeH.getValue(), (int) spnTimeM.getValue()));
@@ -35,7 +43,6 @@ public class MainForm extends JFrame {
                 } while((throwable = throwable.getCause()) != null);
                 lstErrors.setListData(errors.toArray());
             }
-            lstParticipants.setListData(Storage.getInstance().toArray());
 
         });
     }

@@ -1,7 +1,10 @@
 package io.snynx.participants;
 
-import javax.swing.*;
+import javax.swing.UIManager;
 
+/**
+ * Main class, does basic setup and creates the MainForm
+ */
 public class Main {
     public static void main(String[] args) {
         try {
